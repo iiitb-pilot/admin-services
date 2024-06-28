@@ -4,9 +4,9 @@ import io.mosip.admin.packetstatusupdater.constant.AuditConstant;
 import io.mosip.admin.packetstatusupdater.dto.PacketStatusUpdateDto;
 
 public enum EventEnum {
-	
-	
-    USER_NOT_AUTHORIZED("ADM-PKT-405",AuditConstant.AUDIT_USER,"Authorization request","User %s is not authorized","ADM-PKT","Packet service","NO_ID","NO_ID_TYPE",AuditConstant.APPLICATION_ID,AuditConstant.APPLICATION_NAME),
+
+
+	USER_NOT_AUTHORIZED("ADM-PKT-405",AuditConstant.AUDIT_USER,"Authorization request","User %s is not authorized","ADM-PKT","Packet service","NO_ID","NO_ID_TYPE",AuditConstant.APPLICATION_ID,AuditConstant.APPLICATION_NAME),
 	RID_INVALID("ADM-PKT-406",AuditConstant.AUDIT_USER,"Check RID validation","Registration id is invalid","ADM-PKT","Packet service","NO_ID","NO_ID_TYPE",AuditConstant.APPLICATION_ID,AuditConstant.APPLICATION_NAME),
 	CENTRE_NOT_EXISTS("ADM-PKT-407",AuditConstant.AUDIT_USER,"Check centre exists","Centre id extracted from registration id does not exists","ADM-PKT","Packet service","NO_ID","NO_ID_TYPE",AuditConstant.APPLICATION_ID,AuditConstant.APPLICATION_NAME),
 	RID_MISS("ADM-PKT-408",AuditConstant.AUDIT_USER,"Check RID exists","Registration id is missing in the input","ADM-PKT","Packet service","NO_ID","NO_ID_TYPE",AuditConstant.APPLICATION_ID,AuditConstant.APPLICATION_NAME),
@@ -39,7 +39,7 @@ public enum EventEnum {
 	BULKDATA_OPERATION_ERROR("ADM-BLK-402",AuditConstant.AUDIT_SYSTEM,"Request for bulkdata operation","Error occured while operating bulk data for %s","ADM-BLK","Bulk data service","NO_ID","NO_ID_TYPE",AuditConstant.APPLICATION_ID,AuditConstant.APPLICATION_NAME),
 	BULKDATA_OPERATION_CSV_EXT_VALIDATOR_ISSUE("ADM-BLK-403",AuditConstant.AUDIT_SYSTEM,"Validating CSV file request","%s is not csv file","ADM-BLK","Bulk data service","NO_ID","NO_ID_TYPE",AuditConstant.APPLICATION_ID,AuditConstant.APPLICATION_NAME),
 	BULKDATA_OPERATION_INVALID_CSV_FILE("ADM-BLK-404",AuditConstant.AUDIT_SYSTEM,"Validating CSV file request","Invalid csv file %s","ADM-BLK","Bulk data service","NO_ID","NO_ID_TYPE",AuditConstant.APPLICATION_ID,AuditConstant.APPLICATION_NAME),
-	BULKDATA_OPERATION_CSV_VALIDATOR_ISSUE("ADM-BLK-405",AuditConstant.AUDIT_SYSTEM,"Validating CSV file request","All the rows have same number of element in csv file %s","ADM-BLK","Bulk data service","NO_ID","NO_ID_TYPE",AuditConstant.APPLICATION_ID,AuditConstant.APPLICATION_NAME), 
+	BULKDATA_OPERATION_CSV_VALIDATOR_ISSUE("ADM-BLK-405",AuditConstant.AUDIT_SYSTEM,"Validating CSV file request","All the rows have same number of element in csv file %s","ADM-BLK","Bulk data service","NO_ID","NO_ID_TYPE",AuditConstant.APPLICATION_ID,AuditConstant.APPLICATION_NAME),
 	BULKDATA_UPLOAD_CSV_STATUS("ADM-BLK-106",AuditConstant.AUDIT_SYSTEM,"Request for bulkdata insert operation based on category","Status of inserting file %s","ADM-BLK","Bulk data service","NO_ID","NO_ID_TYPE",AuditConstant.APPLICATION_ID,AuditConstant.APPLICATION_NAME),
 	BULKDATA_UPLOAD_TRANSACTION_API_CALLED("ADM-BLK-107",AuditConstant.AUDIT_SYSTEM,"Request for bulkdata upload transaction","Inserting data into transaction table based on %s","ADM-BLK","Bulk data service","NO_ID","NO_ID_TYPE",AuditConstant.APPLICATION_ID,AuditConstant.APPLICATION_NAME),
 	BULKDATA_UPLOAD_TRANSACTION_API_SUCCESS("ADM-BLK-108",AuditConstant.AUDIT_SYSTEM,"Request for bulkdata upload transaction","Successfully inserted data into transaction table with transaction id %s","ADM-BLK","Bulk data service","%s","Transaction Id",AuditConstant.APPLICATION_ID,AuditConstant.APPLICATION_NAME),
@@ -83,27 +83,47 @@ public enum EventEnum {
 	ADMIN_PROXY_ERROR("ADM-MSD-411",AuditConstant.AUDIT_SYSTEM,"Request for Admin Proxy","Failed to call Rest api - %s","ADM-MSD","Admin Proxy service","NO_ID","NO_ID_TYPE",AuditConstant.APPLICATION_ID,AuditConstant.APPLICATION_NAME),
 	KEYMANAGER_PROXY_API_CALLED("ADM-MSD-410", AuditConstant.AUDIT_SYSTEM, "Request for KeyManager proxy API",
 			"API called for KeyManager proxy", "ADM-MSD", "Admin Proxy service", "NO_ID", "NO_ID_TYPE",
-								AuditConstant.APPLICATION_ID, AuditConstant.APPLICATION_NAME );
+			AuditConstant.APPLICATION_ID, AuditConstant.APPLICATION_NAME ),
+	APPLICANT_VERIFICATION_API_CALLED("ADM-AVD-501", AuditConstant.AUDIT_SYSTEM, "Request for Applicant Verification API",
+			"API called for Applicant Verification request", "ADM-AVD", "Admin service", "NO_ID", "NO_ID_TYPE",
+			AuditConstant.APPLICATION_ID, AuditConstant.APPLICATION_NAME),
+	APPLICANT_VERIFICATION_SUCCESS("ADM-AVD-502", AuditConstant.AUDIT_SYSTEM, "Request for Applicant Verification API",
+			"successfully return the applicantPhoto and dob", "ADM-AVD", "admin service", "NO_ID", "NO_ID_TYPE",
+			AuditConstant.APPLICATION_ID, AuditConstant.APPLICATION_NAME),
+	APPLICANT_VERIFICATION_ERROR("ADM-AVD-503",AuditConstant.AUDIT_SYSTEM,"Request for Applicant Verification","Failed to call Rest api - %s","ADM-AVD","admin service","NO_ID","NO_ID_TYPE",AuditConstant.APPLICATION_ID,AuditConstant.APPLICATION_NAME),
+	RID_DIGITAL_CARD_REQ_EXCEPTION("ADM-AVD-504",AuditConstant.AUDIT_SYSTEM,"Request for Digital Card","Downloading digital card based on RID failed - %s","ADM-AVD","admin service","NO_ID","NO_ID_TYPE",AuditConstant.APPLICATION_ID,AuditConstant.APPLICATION_NAME),
+	RID_DIGITAL_CARD_REQ("ADM-AVD-505", AuditConstant.AUDIT_SYSTEM, "Request for Digital Card",
+			"API called for Digital card", "ADM-AVD", "Admin service", "NO_ID", "NO_ID_TYPE",
+			AuditConstant.APPLICATION_ID, AuditConstant.APPLICATION_NAME),
+	RID_DIGITAL_CARD_REQ_SUCCESS("ADM-AVD-506", AuditConstant.AUDIT_SYSTEM, "Request for Digital Card",
+			"successfully returned the digital card", "ADM-AVD", "admin service", "NO_ID", "NO_ID_TYPE",
+			AuditConstant.APPLICATION_ID, AuditConstant.APPLICATION_NAME),
+	APPLICANT_LOGIN_DETAILS_API_CALLED("ADM-AVD-507", AuditConstant.AUDIT_SYSTEM, "Request for Applicant Login Details API",
+			"API called for Applicant Login Details", "ADM-AVD", "Admin service", "NO_ID", "NO_ID_TYPE",
+			AuditConstant.APPLICATION_ID, AuditConstant.APPLICATION_NAME),
+	APPLICANT_LOGIN_DETAILS_SUCCESS("ADM-AVD-508", AuditConstant.AUDIT_SYSTEM, "Request for Applicant Login Details API",
+			"successfully return the login details", "ADM-AVD", "admin service", "NO_ID", "NO_ID_TYPE",
+			AuditConstant.APPLICATION_ID, AuditConstant.APPLICATION_NAME);
 
-	
+
 	private final String eventId;
 
 	private final String type;
-	
+
 	private final String name;
 
 	private String description;
-	
+
 	private String moduleId;
-	
+
 	private String moduleName;
-	
+
 	private String id;
-	
+
 	private String idType;
-	
+
 	private  final String applicationId;
-	
+
 	private final String applicationName;
 
 	private EventEnum(String eventId, String type, String name, String description,String moduleId,String moduleName,String id,String idType,String applicationId,String applicationName) {
@@ -119,8 +139,8 @@ public enum EventEnum {
 		this.applicationName=applicationName;
 	}
 
-	
-	
+
+
 	public String getId() {
 		return id;
 	}
@@ -138,7 +158,7 @@ public enum EventEnum {
 	public String getType() {
 		return type;
 	}
-	
+
 	public void setId(String id) {
 		this.id=id;
 	}
@@ -154,7 +174,7 @@ public enum EventEnum {
 	public String getName() {
 		return name;
 	}
-	
+
 	public String getModuleId() {
 		return moduleId;
 	}
@@ -162,8 +182,8 @@ public enum EventEnum {
 	public String getModuleName() {
 		return moduleName;
 	}
-	
-	
+
+
 
 	public String getApplicationId() {
 		return applicationId;
@@ -180,51 +200,51 @@ public enum EventEnum {
 	public static EventEnum getEventEnumBasedOnPAcketStatus(PacketStatusUpdateDto ps)
 	{
 		if(null!=ps.getTransactionTypeCode()) {
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("PACKET_RECEIVER"))
-		{
-			if(null==ps.getParentTransactionId() || ps.getParentTransactionId().isBlank())
-				return getEventEnumWithValue(PACKET_RECEIVER,ps.getRegistrationId());
-			return getEventEnumWithValue(PACKET_RECEIVER_WITH_TRANS_CODE,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("PACKET_RECEIVER"))
+			{
+				if(null==ps.getParentTransactionId() || ps.getParentTransactionId().isBlank())
+					return getEventEnumWithValue(PACKET_RECEIVER,ps.getRegistrationId());
+				return getEventEnumWithValue(PACKET_RECEIVER_WITH_TRANS_CODE,ps.getRegistrationId());
+			}
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("UPLOAD_PACKET"))
+				return getEventEnumWithValue(UPLOAD_PACKET,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("PRINT_SERVICE"))
+				return getEventEnumWithValue(PRINT_SERVICE,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("PRINT_POSTAL_SERVICE"))
+				return getEventEnumWithValue(PRINT_POSTAL_SERVICE,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("VIRUS_SCAN"))
+				return getEventEnumWithValue(VIRUS_SCAN,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("VALIDATE_PACKET"))
+				return getEventEnumWithValue(VALIDATE_PACKET,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("OSI_VALIDATE"))
+				return getEventEnumWithValue(OSI_VALIDATE,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("EXTERNAL_INTEGRATION"))
+				return getEventEnumWithValue(EXTERNAL_INTEGRATION,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("DEMOGRAPHIC_VERIFICATION"))
+				return getEventEnumWithValue(DEMOGRAPHIC_VERIFICATION,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("MANUAL_VERIFICATION"))
+				return getEventEnumWithValue(MANUAL_VERIFICATION,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("BIOGRAPHIC_VERIFICATION"))
+				return getEventEnumWithValue(BIOGRAPHIC_VERIFICATION,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("UIN_GENERATOR"))
+				return getEventEnumWithValue(UIN_GENERATOR,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("NOTIFICATION"))
+				return getEventEnumWithValue(NOTIFICATION,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("PACKET_REPROCESS"))
+				return getEventEnumWithValue(PACKET_REPROCESS,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("QUALITY_CHECK"))
+				return getEventEnumWithValue(QUALITY_CHECK,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("BIOMETRIC_AUTHENTICATION"))
+				return getEventEnumWithValue(BIOMETRIC_AUTHENTICATION,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("SECUREZONE_NOTIFICATION"))
+				return getEventEnumWithValue(SECUREZONE_NOTIFICATION,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("PRINT"))
+				return getEventEnumWithValue(PRINT,ps.getRegistrationId());
 		}
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("UPLOAD_PACKET")) 
-			return getEventEnumWithValue(UPLOAD_PACKET,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("PRINT_SERVICE"))
-			return getEventEnumWithValue(PRINT_SERVICE,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("PRINT_POSTAL_SERVICE"))
-			return getEventEnumWithValue(PRINT_POSTAL_SERVICE,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("VIRUS_SCAN")) 
-			return getEventEnumWithValue(VIRUS_SCAN,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("VALIDATE_PACKET")) 
-			return getEventEnumWithValue(VALIDATE_PACKET,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("OSI_VALIDATE")) 
-			return getEventEnumWithValue(OSI_VALIDATE,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("EXTERNAL_INTEGRATION")) 
-			return getEventEnumWithValue(EXTERNAL_INTEGRATION,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("DEMOGRAPHIC_VERIFICATION")) 
-			return getEventEnumWithValue(DEMOGRAPHIC_VERIFICATION,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("MANUAL_VERIFICATION")) 
-			return getEventEnumWithValue(MANUAL_VERIFICATION,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("BIOGRAPHIC_VERIFICATION")) 
-			return getEventEnumWithValue(BIOGRAPHIC_VERIFICATION,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("UIN_GENERATOR")) 
-			return getEventEnumWithValue(UIN_GENERATOR,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("NOTIFICATION")) 
-			return getEventEnumWithValue(NOTIFICATION,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("PACKET_REPROCESS")) 
-			return getEventEnumWithValue(PACKET_REPROCESS,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("QUALITY_CHECK")) 
-			return getEventEnumWithValue(QUALITY_CHECK,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("BIOMETRIC_AUTHENTICATION")) 
-			return getEventEnumWithValue(BIOMETRIC_AUTHENTICATION,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("SECUREZONE_NOTIFICATION")) 
-			return getEventEnumWithValue(SECUREZONE_NOTIFICATION,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("PRINT")) 
-			return getEventEnumWithValue(PRINT,ps.getRegistrationId());
-	}
 		return null;
-		
+
 	}
-	
+
 	public static EventEnum getEventEnumWithValue(EventEnum e,String s)
 	{
 		e.setDescription(String.format(e.getDescription(),s));
@@ -232,6 +252,6 @@ public enum EventEnum {
 			e.setId(s);
 		return e;
 	}
-	
-	
+
+
 }
