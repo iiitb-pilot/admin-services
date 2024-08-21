@@ -39,15 +39,8 @@ public class AdminServiceImpl implements AdminService {
 	@Value("${mosip.registration.processor.lostrid.id:mosip.registration.lostrid}")
 	private String lostRidRequestId;
 
-	@Value("${mosip.admin.lostrid.details.fields:firstName,middleName,lastName,dateOfBirth}")
+	@Value("${mosip.admin.lostrid.details.fields}")
 	private String[] fields;
-
-	@Value("${mosip.admin.lostrid.details.name.field:firstName}")
-	private String firstName;
-	@Value("${mosip.admin.lostrid.details.name.field:middleName}")
-	private String middleName;
-	@Value("${mosip.admin.lostrid.details.name.field:lastName}")
-	private String lastName;
 
 	@Value("${mosip.admin.lostrid.details.biometric.field:individualBiometrics}")
 	private String biometricField;
@@ -63,7 +56,6 @@ public class AdminServiceImpl implements AdminService {
 	private static final String VALUE = "value";
 
 	private static final Logger logger = LoggerFactory.getLogger(AdminServiceImpl.class);
-
 	@Autowired
 	private Utility utility;
 
@@ -140,12 +132,15 @@ public class AdminServiceImpl implements AdminService {
 			fieldResponseDto = objectMapper.readValue(objectMapper.writeValueAsString(fieldDtosResponseWrapper.getResponse()), SearchFieldResponseDto.class);
 
 			for (String field: fields) {
+//				String value = fieldResponseDto.getFields().get(field);
 				String value = fieldResponseDto.getFields().get(field);
 				if(value ==null) continue;
+
 				if (fieldResponseDto.getFields().containsKey(field) && isNameFields(field)) {
 					org.json.JSONArray jsonArray = new org.json.JSONArray(value);
 					org.json.JSONObject jsonObject = (org.json.JSONObject) jsonArray.get(0);
-					lostRidDataMap.put(field, jsonObject.getString(VALUE));
+
+					lostRidDataMap.put(field, jsonObject.get(VALUE).toString());
 				} else {
 
 					lostRidDataMap.put(field, fieldResponseDto.getFields().get(field));
@@ -163,8 +158,15 @@ public class AdminServiceImpl implements AdminService {
 		return lostRidDetailsDto;
 	}
 
-	private boolean isNameFields(String field){
-		return  field.equalsIgnoreCase(firstName) ||field.equalsIgnoreCase(middleName)||field.equalsIgnoreCase(lastName);
+	boolean isNameFields(String field){
+		for (String nameField : fields) {
+			// Check if the current nameField is not "dateOfBirth"
+			if (!nameField.equalsIgnoreCase("dateOfBirth") && field.equalsIgnoreCase(nameField)) {
+				return true;
+			}
+		}
+		// Return false if no match found or if the field is "dateOfBirth"
+		return false;
 	}
 
 	private void getApplicantPhoto(String rid, Map<String, String> lostRidDataMap){
