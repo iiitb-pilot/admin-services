@@ -83,6 +83,14 @@ public class LocationHierarchyServiceImpl implements LocationHierarchyService {
 		try {
 			locationHierarchyList = locationHierarchyRepository
 					.findAllByLangCodeAndIsDeletedFalseOrIsDeletedIsNull(langCode);
+
+			for (LocationHierarchy hierarchy : locationHierarchyList) {
+				if (hierarchy.getHierarchyLevelName() != null && !hierarchy.getHierarchyLevelName().isEmpty()) {
+					String name = hierarchy.getHierarchyLevelName();
+					// Capitalize the first letter and make the rest lowercase
+					hierarchy.setHierarchyLevelName(name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase());
+				}
+			}
 		} catch (DataAccessException | DataAccessLayerException e) {
 			throw new MasterDataServiceException(
 					LocationHierarchyErrorCode.LOCATION_HIERARCHY_FETCH_EXCEPTION.getErrorCode(),
