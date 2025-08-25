@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.mosip.admin.dto.ErrorDTO;
+import io.mosip.admin.dto.LostRidDetailsDto;
 import io.mosip.admin.dto.LostRidExtnDto;
 import io.mosip.admin.dto.LostRidResponseDto;
 import io.mosip.admin.dto.SearchInfo;
@@ -24,22 +28,32 @@ public class AdminController {
 
 	@Autowired
 	AdminService adminService;
-	
+
 	@Autowired
 	AuditUtil auditUtil;
 
+	@PreAuthorize("hasAnyRole(@authorizedRoles.getPostlostRid())")
 	@PostMapping("/lostRid")
-	private ResponseWrapper<LostRidExtnDto> lostRid(@RequestBody RequestWrapper<SearchInfo> searchInfo) {
-		auditUtil.setAuditRequestDto(EventEnum.LOST_RID_API_CALLED,null);
+	public ResponseWrapper<LostRidExtnDto> lostRid(@RequestBody RequestWrapper<SearchInfo> searchInfo) {
+		auditUtil.setAuditRequestDto(EventEnum.LOST_RID_API_CALLED, null);
 		LostRidResponseDto lostRidResponseDto = adminService.lostRid(searchInfo.getRequest());
-		auditUtil.setAuditRequestDto(EventEnum.LOST_RID_SUCCESS,null);
+		auditUtil.setAuditRequestDto(EventEnum.LOST_RID_SUCCESS, null);
 		return buildLostRidResponse(lostRidResponseDto);
 	}
-	
+
+	@GetMapping("/lostRid/details/{rid}")
+	public ResponseWrapper<LostRidDetailsDto> getLostRidDetails(@PathVariable("rid") String rid) {
+		auditUtil.setAuditRequestDto(EventEnum.LOST_RID_API_CALLED, null);
+		ResponseWrapper<LostRidDetailsDto> responseWrapper = new ResponseWrapper<>();
+		responseWrapper.setResponse(adminService.getLostRidDetails(rid));
+		auditUtil.setAuditRequestDto(EventEnum.LOST_RID_SUCCESS, null);
+		return responseWrapper;
+	}
+
 	private ResponseWrapper<LostRidExtnDto> buildLostRidResponse(LostRidResponseDto lostRidResponseDto) {
 		ResponseWrapper<LostRidExtnDto> responseWrapper = new ResponseWrapper<>();
 		LostRidExtnDto lostRidExtnDto = new LostRidExtnDto();
-		List<ServiceError> sr=new ArrayList<>();
+		List<ServiceError> sr = new ArrayList<>();
 		if (!lostRidResponseDto.getErrors().isEmpty()) {
 			for (ErrorDTO ed : lostRidResponseDto.getErrors()) {
 				ServiceError se = new ServiceError();
