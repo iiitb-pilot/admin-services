@@ -1,4 +1,4 @@
-FROM openjdk:11
+FROM openjdk:11.0.16-jdk
 
 ARG SOURCE
 ARG COMMIT_HASH
