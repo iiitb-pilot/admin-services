@@ -198,6 +198,14 @@
 			<artifactId>kernel-cbeffutil-api</artifactId>
 			<version>${mosip.biometric.util.version}</version>
 		</dependency>
+		
+		<dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>2.15.4</version>
+            <scope>test</scope>
+        </dependency>
+        
 		<dependency>
 			<groupId>io.mosip.biometric.util</groupId>
 			<artifactId>biometrics-util</artifactId>
