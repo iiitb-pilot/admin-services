@@ -131,7 +131,7 @@ public class AdminControllerTest {
 	@Test
 	@WithUserDetails(value = "zonal-admin")
 	public void testLostRidDetails_withValidId_returnsDetails() throws Exception {
-		String str = "{\"id\":null,\"version\":null,\"responsetime\":\"2023-07-19T05:58:54.874Z\",\"metadata\":null,\"response\":{\"fields\":{\"fullName\":\"[ {\\n  \\\"language\\\" : \\\"eng\\\",\\n  \\\"value\\\" : \\\"test new 2\\\"\\n}, {\\n  \\\"language\\\" : \\\"fra\\\",\\n  \\\"value\\\" : \\\"test new 2\\\"\\n} ]\",\"dateOfBirth\":\"1995/01/01\"}},\"errors\":[]}";
+		String str = "{\"id\":null,\"version\":null,\"responsetime\":\"2023-07-19T05:58:54.874Z\",\"metadata\":null,\"response\":{\"fields\":{\"firstName\":\"[{\\\"language\\\":\\\"eng\\\",\\\"value\\\":\\\"test\\\"}]\",\"lastName\":\"[{\\\"language\\\":\\\"eng\\\",\\\"value\\\":\\\"user\\\"}]\",\"dateOfBirth\":\"1995/01/01\"}},\"errors\":[]}";		
 		String biometricResponse = new String(Files.readAllBytes(Paths.get(getClass().getResource("/biometricApiResponse.json").toURI())), StandardCharsets.UTF_8);
 
 		mockRestServiceServer.expect(requestTo(searchFieldsUrl))
@@ -140,11 +140,9 @@ public class AdminControllerTest {
 		mockRestServiceServer.expect(requestTo(biometricUrl))
 				.andRespond(withSuccess().body(biometricResponse).contentType(MediaType.APPLICATION_JSON));
 
-		AdminDataUtil.checkErrorResponse(
+		AdminDataUtil.checkSuccessResponse(
 				(mockMvc.perform(MockMvcRequestBuilders.get("/lostRid/details/"+"10002100800001020230223050340")).andReturn()),
 				null);
-
-
 	}
 
 	@Test
