@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.mosip.admin.constant.LostRidErrorCode;
@@ -39,7 +40,7 @@ public class AdminServiceImpl implements AdminService {
 	@Value("${mosip.registration.processor.lostrid.id:mosip.registration.lostrid}")
 	private String lostRidRequestId;
 
-	@Value("${mosip.admin.lostrid.details.fields:fullName,dateOfBirth}")
+	@Value("${mosip.admin.lostrid.details.fields:firstName,middleName,lastName,dateOfBirth}")
 	private String[] fields;
 
 	@Value("${mosip.admin.lostrid.details.name.field:fullName}")
@@ -107,7 +108,6 @@ public class AdminServiceImpl implements AdminService {
 			sortInfos.add(sortInfo);
 			searchInfoRequest.setSort(sortInfos);
 		}
-
 	}
 
 	public String getApplicantPhoto(byte[] isodata) throws Exception {
@@ -133,6 +133,7 @@ public class AdminServiceImpl implements AdminService {
 			fieldDtosRequestWrapper.setRequest(fieldDtos);
 			ResponseWrapper<SearchFieldDtos> fieldDtosResponseWrapper = restClient.postApi(ApiName.PACKET_MANAGER_SEARCHFIELDS, MediaType.APPLICATION_JSON,
 					fieldDtosRequestWrapper, ResponseWrapper.class);
+			
 			fieldResponseDto = objectMapper.readValue(objectMapper.writeValueAsString(fieldDtosResponseWrapper.getResponse()), SearchFieldResponseDto.class);
 			for (String field: fields) {
 				if (fieldResponseDto.getFields().containsKey(field) && field.equalsIgnoreCase(nameField)) {
@@ -170,7 +171,11 @@ public class AdminServiceImpl implements AdminService {
 			JSONArray segements=utility.getJSONArray(responseJsonObj,SEGEMENTS);
 			JSONObject jsonObject=utility.getJSONObjectFromArray(segements,0);
 			convertRequestDto.setVersion("ISO19794_5_2011");
-			convertRequestDto.setInputBytes(Base64.decodeBase64((String) jsonObject.get("bdb")));
+			Object bdb = jsonObject.get("bdb");
+			byte[] inputBytes = (bdb instanceof String)
+				    ? Base64.decodeBase64((String) bdb)
+				    : convertIntListToBytes(objectMapper.convertValue(bdb, new TypeReference<List<Integer>>() {}));
+				convertRequestDto.setInputBytes(inputBytes);
 			byte[] data = FaceDecoder.convertFaceISOToImageBytes(convertRequestDto);
 			String encodedBytes = StringUtils.newStringUtf8(Base64.encodeBase64(data, false));
 			String imageData = "data:image/png;base64," + encodedBytes;
@@ -188,6 +193,14 @@ public class AdminServiceImpl implements AdminService {
 		}
 	}
 
+
+	private byte[] convertIntListToBytes(List<Integer> intList) {
+	    byte[] bytes = new byte[intList.size()];
+	    for (int i = 0; i < intList.size(); i++) {
+	        bytes[i] = intList.get(i).byteValue();
+	    }
+	    return bytes;
+	}
 
 	private void buildBiometricRequestDto(BiometricRequestDto biometricRequestDto, String rid) {
 		List<String> modalities=new ArrayList<>();
