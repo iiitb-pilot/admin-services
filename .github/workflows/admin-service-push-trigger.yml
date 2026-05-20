@@ -55,7 +55,7 @@ jobs:
             BUILD_ARTIFACT: 'admin'
       fail-fast: false
     name: ${{ matrix.SERVICE_NAME }}
-    uses: iiitb-pilot/kattu/.github/workflows/maven-build.yml@master-java21
+    uses: iiitb-pilot/kattu/.github/workflows/docker-build.yml@master-java21
     with:
       SERVICE_LOCATION: ${{ matrix.SERVICE_LOCATION }}
       SERVICE_NAME: ${{ matrix.SERVICE_NAME }}
