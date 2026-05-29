@@ -6,6 +6,11 @@ import lombok.Data;
 
 @Data
 public class LostRidExtnDto {
+	private long fromRecord;
+
+	private long toRecord;
+
+	private long totalRecord;
 
 	List<LostRidDto> data;
 }
