@@ -11,6 +11,7 @@ import java.util.List;
 
 import io.mosip.admin.bulkdataupload.entity.BulkUploadTranscation;
 import io.mosip.admin.bulkdataupload.repositories.BulkUploadTranscationRepository;
+import io.mosip.admin.dto.*;
 import io.mosip.kernel.core.idvalidator.spi.RidValidator;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -40,12 +41,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.mosip.admin.TestBootApplication;
 import io.mosip.admin.bulkdataupload.dto.BulkDataResponseDto;
 import io.mosip.admin.bulkdataupload.service.BulkDataService;
-import io.mosip.admin.dto.ErrorDTO;
-import io.mosip.admin.dto.FilterInfo;
-import io.mosip.admin.dto.LostRidDto;
-import io.mosip.admin.dto.LostRidResponseDto;
-import io.mosip.admin.dto.SearchInfo;
-import io.mosip.admin.dto.SortInfo;
 import io.mosip.admin.packetstatusupdater.dto.AuditManagerRequestDto;
 import io.mosip.admin.packetstatusupdater.dto.PacketStatusUpdateDto;
 import io.mosip.admin.packetstatusupdater.dto.PacketStatusUpdateResponseDto;
@@ -185,8 +180,15 @@ public class IntegratedControllerTest {
 		l.setRegistrationId("1234");
 		List<LostRidDto> lstRid = new ArrayList<>();
 		lstRid.add(l);
+
+		PageResponseDTO<LostRidDto> pageResponse = new PageResponseDTO<>();
+		pageResponse.setFromRecord(1);
+		pageResponse.setToRecord(lstRid.size());
+		pageResponse.setTotalRecord(lstRid.size());
+		pageResponse.setData(lstRid);
+
 		lDto.setErrors(new ArrayList<>());
-		lDto.setResponse(lstRid);
+		lDto.setResponse(pageResponse);
 	}
 
 	@Test
@@ -224,11 +226,25 @@ public class IntegratedControllerTest {
 	@WithUserDetails(value = "zonal-admin")
 	public void t002lostRidTest1() throws Exception {
 
-		String str = "{\r\n    \"id\": null,\r\n    \"version\": null,\r\n    \"responsetime\": \""
-				+ LocalDate.now().toString()
-				+ "\",\r\n    \"metadata\": null,\r\n    \"response\": [{\"registrationId\":\"1234\",\"registrationDate\":\""
-				+ LocalDate.now().toString()
-				+ "\"}],\r\n    \"errors\": [{\"errorCode\":\"ADMN-LRID-001\",\"errorMessage\":\"unable to get rid\"}]\r\n}";
+		String str = "{"
+				+ "\"id\":null,"
+				+ "\"version\":null,"
+				+ "\"responsetime\":\"" + LocalDate.now() + "\","
+				+ "\"metadata\":null,"
+				+ "\"response\":{"
+				+ "\"fromRecord\":1,"
+				+ "\"toRecord\":1,"
+				+ "\"totalRecord\":1,"
+				+ "\"data\":[{"
+				+ "\"registrationId\":\"1234\","
+				+ "\"registartionDate\":\"" + LocalDate.now() + "\""
+				+ "}]"
+				+ "},"
+				+ "\"errors\":[{"
+				+ "\"errorCode\":\"ADMN-LRID-001\","
+				+ "\"errorMessage\":\"unable to get rid\""
+				+ "}]"
+				+ "}";
 		mockRestServiceServer.expect(requestTo(lostRIDUrl))
 				.andRespond(withSuccess().body(str));
 
