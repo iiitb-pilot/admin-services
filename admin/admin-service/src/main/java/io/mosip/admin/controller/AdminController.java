@@ -3,6 +3,7 @@ package io.mosip.admin.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.mosip.admin.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,11 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.mosip.admin.dto.ErrorDTO;
-import io.mosip.admin.dto.LostRidDetailsDto;
-import io.mosip.admin.dto.LostRidExtnDto;
-import io.mosip.admin.dto.LostRidResponseDto;
-import io.mosip.admin.dto.SearchInfo;
 import io.mosip.admin.packetstatusupdater.util.AuditUtil;
 import io.mosip.admin.packetstatusupdater.util.EventEnum;
 import io.mosip.admin.service.AdminService;
@@ -62,7 +58,12 @@ public class AdminController {
 				sr.add(se);
 			}
 		}
-		lostRidExtnDto.setData(lostRidResponseDto.getResponse());
+		PageResponseDTO<LostRidDto> page = lostRidResponseDto.getResponse();
+
+		lostRidExtnDto.setFromRecord(page.getFromRecord());
+		lostRidExtnDto.setToRecord(page.getToRecord());
+		lostRidExtnDto.setTotalRecord(page.getTotalRecord());
+		lostRidExtnDto.setData(page.getData());
 		responseWrapper.setResponse(lostRidExtnDto);
 		responseWrapper.setErrors(sr);
 		return responseWrapper;
