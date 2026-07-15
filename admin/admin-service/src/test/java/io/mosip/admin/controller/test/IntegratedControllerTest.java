@@ -171,8 +171,15 @@ public class IntegratedControllerTest {
 		l.setRegistrationId("1234");
 		List<LostRidDto> lstRid = new ArrayList<>();
 		lstRid.add(l);
+
+		PageResponseDTO<LostRidDto> pageResponse = new PageResponseDTO<>();
+		pageResponse.setFromRecord(1);
+		pageResponse.setToRecord(lstRid.size());
+		pageResponse.setTotalRecord(lstRid.size());
+		pageResponse.setData(lstRid);
+
 		lDto.setErrors(new ArrayList<>());
-		lDto.setResponse(lstRid);
+		lDto.setResponse(pageResponse);
 	}
 
 	@Test
@@ -210,11 +217,25 @@ public class IntegratedControllerTest {
 	@WithUserDetails(value = "zonal-admin")
 	public void t002lostRidTest1() throws Exception {
 
-		String str = "{\r\n    \"id\": null,\r\n    \"version\": null,\r\n    \"responsetime\": \""
-				+ LocalDate.now().toString()
-				+ "\",\r\n    \"metadata\": null,\r\n    \"response\": [{\"registrationId\":\"1234\",\"registrationDate\":\""
-				+ LocalDate.now().toString()
-				+ "\"}],\r\n    \"errors\": [{\"errorCode\":\"ADMN-LRID-001\",\"errorMessage\":\"unable to get rid\"}]\r\n}";
+		String str = "{"
+				+ "\"id\":null,"
+				+ "\"version\":null,"
+				+ "\"responsetime\":\"" + LocalDate.now() + "\","
+				+ "\"metadata\":null,"
+				+ "\"response\":{"
+				+ "\"fromRecord\":1,"
+				+ "\"toRecord\":1,"
+				+ "\"totalRecord\":1,"
+				+ "\"data\":[{"
+				+ "\"registrationId\":\"1234\","
+				+ "\"registartionDate\":\"" + LocalDate.now() + "\""
+				+ "}]"
+				+ "},"
+				+ "\"errors\":[{"
+				+ "\"errorCode\":\"ADMN-LRID-001\","
+				+ "\"errorMessage\":\"unable to get rid\""
+				+ "}]"
+				+ "}";
 		mockRestServiceServer.expect(requestTo(lostRIDUrl))
 				.andRespond(withSuccess().body(str));
 

@@ -133,6 +133,15 @@ public class AdminServiceImpl implements AdminService {
 			fieldDtosRequestWrapper.setRequest(fieldDtos);
 			ResponseWrapper<SearchFieldDtos> fieldDtosResponseWrapper = restClient.postApi(ApiName.PACKET_MANAGER_SEARCHFIELDS, MediaType.APPLICATION_JSON,
 					fieldDtosRequestWrapper, ResponseWrapper.class);
+			if (fieldDtosResponseWrapper == null ||
+				    fieldDtosResponseWrapper.getResponse() == null) {
+
+				    logger.error("Search fields response is null for RID {}", rid);
+
+				    throw new RequestException(
+				        LostRidErrorCode.UNABLE_TO_RETRIEVE_LOSTRID_DATA.getErrorCode(),
+				        "Search fields response is null");
+				}
 			
 			fieldResponseDto = objectMapper.readValue(objectMapper.writeValueAsString(fieldDtosResponseWrapper.getResponse()), SearchFieldResponseDto.class);
 			for (String field: fields) {

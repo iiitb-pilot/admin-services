@@ -25,5 +25,7 @@ public class SearchInfo {
 
 	@NotNull
 	private List<SortInfo> sort;
+	
+	private Pagination pagination;
 
 }

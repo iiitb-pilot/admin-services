@@ -46,7 +46,7 @@ public class AdminController {
 	private ResponseWrapper<LostRidExtnDto> buildLostRidResponse(LostRidResponseDto lostRidResponseDto) {
 		ResponseWrapper<LostRidExtnDto> responseWrapper = new ResponseWrapper<>();
 		LostRidExtnDto lostRidExtnDto = new LostRidExtnDto();
-		List<ServiceError> sr=new ArrayList<>();
+		List<ServiceError> sr = new ArrayList<>();
 		if (!lostRidResponseDto.getErrors().isEmpty()) {
 			for (ErrorDTO ed : lostRidResponseDto.getErrors()) {
 				ServiceError se = new ServiceError();
@@ -55,7 +55,12 @@ public class AdminController {
 				sr.add(se);
 			}
 		}
-		lostRidExtnDto.setData(lostRidResponseDto.getResponse());
+		PageResponseDTO<LostRidDto> page = lostRidResponseDto.getResponse();
+
+		lostRidExtnDto.setFromRecord(page.getFromRecord());
+		lostRidExtnDto.setToRecord(page.getToRecord());
+		lostRidExtnDto.setTotalRecord(page.getTotalRecord());
+		lostRidExtnDto.setData(page.getData());
 		responseWrapper.setResponse(lostRidExtnDto);
 		responseWrapper.setErrors(sr);
 		return responseWrapper;
