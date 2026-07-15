@@ -115,7 +115,24 @@ public class AdminControllerTest {
 	@Test
 	@WithUserDetails(value = "zonal-admin")
 	public void testLostRidSearch_withValidRequest_returnsResults() throws Exception {
-		String str = "{\r\n    \"id\": null,\r\n    \"version\": null,\r\n    \"responsetime\": \"2019-12-02T09:45:24.512Z\",\r\n    \"metadata\": null,\r\n    \"response\": [{\"registrationId\":\"1234\",\"registrationDate\":\"2021-12-14 16:29:13,436\"}],\r\n    \"errors\": []\r\n}";
+		String str = "{"
+	            + "\"id\":null,"
+	            + "\"version\":null,"
+	            + "\"responsetime\":\"2026-07-15T07:02:00.454Z\","
+	            + "\"metadata\":null,"
+	            + "\"response\":{"
+	            +     "\"fromRecord\":1,"
+	            +     "\"toRecord\":1,"
+	            +     "\"totalRecord\":1,"
+	            +     "\"data\":[{"
+	            +         "\"registrationId\":\"1234\","
+	            +         "\"registartionDate\":\"2026-07-15\","
+	            +         "\"additionalInfo\":{},"
+	            +         "\"syncDateTime\":\"2026-07-15T07:02:00\""
+	            +     "}]"
+	            + "},"
+	            + "\"errors\":[]"
+	            + "}";
 		searchInfoReq.getRequest().setSort(new ArrayList<SortInfo>());
 
 		mockRestServiceServer.expect(requestTo(lstRidUrl))
