@@ -120,7 +120,7 @@ public class AuditManagerProxyServiceImpl implements AuditManagerProxyService {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		HttpEntity<RequestWrapper<AuditManagerRequestDto>> entity = new HttpEntity<>(request);
+		HttpEntity<RequestWrapper<AuditManagerRequestDto>> entity = new HttpEntity<>(request, headers);
 
 		try {
 			restTemplate.postForEntity(auditmanagerapi, entity, String.class);
