@@ -221,12 +221,32 @@ public class PacketStatusUpdateServiceImpl implements PacketStatusUpdateService 
 	 * @param packStautsDtos
 	 * Description: It's calling the property file and set the comment based on the sub-status-code
 	 */
-	private void setStatusMessage(List<PacketStatusUpdateDto> packStautsDtos) {
+/*	private void setStatusMessage(List<PacketStatusUpdateDto> packStautsDtos) {
 		if (null != packetProperties) {
 			packStautsDtos.stream().forEach(packStautsDto -> {
 				String subStatusCode = packStautsDto.getSubStatusCode();
 				if (subStatusCode != null && !subStatusCode.isEmpty()) {
 					packStautsDto.setStatusComment(packetProperties.getProperty(subStatusCode));
+				}
+			});
+		}
+	}*/
+
+
+	private void setStatusMessage(List<PacketStatusUpdateDto> packStautsDtos) {
+		if (null != packetProperties) {
+			packStautsDtos.stream().forEach(packStautsDto -> {
+
+				String subStatusCode = packStautsDto.getSubStatusCode();
+
+				if (subStatusCode != null && !subStatusCode.isEmpty()) {
+
+					String statusMessage =
+							packetProperties.getProperty(subStatusCode);
+
+					if (statusMessage != null && !statusMessage.isEmpty()) {
+						packStautsDto.setStatusComment(statusMessage);
+					}
 				}
 			});
 		}
